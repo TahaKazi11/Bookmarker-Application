@@ -7,6 +7,9 @@ function saveBookmark(e){
    var siteName = document.getElementById("siteName").value; //for the actual value we add value, otherwise we just get the elemenet
    var siteUrl = document.getElementById("siteURL").value;
 
+   if(!isValidate(siteName, siteUrl)){
+     return false;
+   }
    var bookmark = {
       site: siteName,
       url: siteUrl
@@ -37,6 +40,8 @@ function saveBookmark(e){
 
    //save form from submitting
    e.preventDefault();
+   //document.getElementById('myForm').reset(); reset the form
+   //reload the page
    document.location.reload();
 }
 
@@ -55,6 +60,8 @@ function deleteBookmark(url){
   //Re-set back to localStorage
   localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
 
+
+  //document.getElementById('myForm').reset(); reset the form
   //reload the page
   document.location.reload();
 
@@ -75,4 +82,24 @@ function fetchBookmarks(){
 
     bookmarksResults.innerHTML += '<div class="well">' + '<h3>' + name + '  <a class="btn btn-default" target="_blank" href="' +url+ '">Visit</a> '  + '<a onclick="deleteBookmark(\''+url+'\')" class="btn btn-danger" href="#">Remove</a> ' + '</h3>' +'</div>';
   }
+}
+
+function isValidate(siteName, siteUrl){
+  //validation starts here:
+  if (!siteUrl || !siteName){
+    alert("Please fill in form properly.");
+    return false; //to get out from repeated alertted repetition
+  }
+
+  //using regex for proper website formation
+  var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+  var regex = new RegExp(expression);
+
+  //checking if url given is a valid url by comparing to regex
+  if(!siteUrl.match(regex)){
+     alert("Please fill in a valid URL.");
+     return false;
+  }
+  //validation ends
+  return true;
 }
