@@ -37,12 +37,42 @@ function saveBookmark(e){
 
    //save form from submitting
    e.preventDefault();
+   document.location.reload();
 }
 
+//delete the bookmark
+function deleteBookmark(url){
+  var bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+
+  //loop through bookmarks
+  for(var i = 0; i < bookmarks.length; i++){
+    if(bookmarks[i].url === url){
+      //remove from array
+      bookmarks.splice(i, 1);
+    }
+
+  }
+  //Re-set back to localStorage
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+
+  //reload the page
+  document.location.reload();
+
+}
 //fetch bookmarks
-
 function fetchBookmarks(){
-  var bookmarks = JSON.parse(localStorage.getItem('bookmarks')); //will turn string into JSON
+  var bookmarks = JSON.parse(localStorage.getItem('bookmarks')); //to get bookmarks from localStorage
 
+  //Get output id
+  var bookmarksResults = document.getElementById('bookmarksResults');
 
+  //build output
+  //bookmarksResults.innerHTML = 'hi';
+  for(var i = 0; i < bookmarks.length; i++){
+    var name = bookmarks[i].site;
+    var url = bookmarks[i].url;
+    console.log(url);
+
+    bookmarksResults.innerHTML += '<div class="well">' + '<h3>' + name + '  <a class="btn btn-default" target="_blank" href="' +url+ '">Visit</a> '  + '<a onclick="deleteBookmark(\''+url+'\')" class="btn btn-danger" href="#">Remove</a> ' + '</h3>' +'</div>';
+  }
 }
