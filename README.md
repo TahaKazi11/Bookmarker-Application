@@ -1,4 +1,4 @@
-# Bookmarker App
+# Bookmarker Application
 
 A bookmarker application, using mainly HTML and javascript. Users can add websites as bookmarks, remove bookmarks, and visit bookmarks. This application uses localStorage to store the bookmarks.
 
